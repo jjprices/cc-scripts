@@ -196,7 +196,7 @@ for i = 1, #tArgs do
         end
     elseif parameterName == "--quiet" then
         quietMode = true
-    elseif parameterName == "--mineAbove" then
+    elseif parameterName == "--mineabove" then
         mineAbove = true
     else
         exitProgram("Unknown parameter: "..parameterName)
