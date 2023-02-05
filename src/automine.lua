@@ -192,6 +192,7 @@ for i = 1, #tArgs do
         if #tArgs > i then
             i = i + 1
             distanceLimit = tonumber(tArgs[i])
+            print("distanceLimit is "..distanceLimit.." and i is "..i)
         else
             exitProgram("no distance value supplied")
         end
