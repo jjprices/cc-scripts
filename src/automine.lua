@@ -329,6 +329,11 @@ if turtle.getItemCount(16) > 0 then
     print "Something is in last slot..."
 end
 
-if not headingBack then
+if headingBack then
+    turtle.turnRight()
+    for i = 1, 3 do
+        digCorridor()
+    end
+else
     returnHome()
 end
