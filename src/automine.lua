@@ -204,6 +204,7 @@ for i = 1, #tArgs do
         exitProgram("Unknown parameter: "..parameterName)
     end
     i = i + 1
+    print("end of loop i:"..i)
 end
 
 turtle.select(2)
