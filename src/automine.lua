@@ -302,6 +302,8 @@ while turtle.getItemCount(16) <= 1 do
             turtle.turnRight()
             totalSpaces = 0
             lightSpaces = 10
+        elseif mineBack then
+            break
         elseif not mineBack then
             if quietMode then
                 break
