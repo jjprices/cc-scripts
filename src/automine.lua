@@ -40,8 +40,8 @@ local tArgs = { ... }
 local lightDistance = 15
 local totalSpaces = 0
 local lightSpaces = 10
-local bridgeBlocks = { "dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite" }
-local throwAwayBlocks = {table.unpack(bridgeBlocks), "sand", "gravel" }
+local bridgeBlocks = { "dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite", ":stone" }
+local throwAwayBlocks = {t"dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite", ":stone" , "sand", "gravel" }
 local quietMode = false
 local mineAbove = false
 local checkAround = false
@@ -85,8 +85,7 @@ local function turnAround()
 end
 
 local function throwAway()
-    turtle.turnLeft()
-    turtle.turnLeft()
+    turnAround()
     for i = 1,15 do
         turtle.select(i)
         local blockInfo = turtle.getItemDetail(i)
@@ -129,7 +128,7 @@ local function digCorridor()
 
     if checkAround then
         exists, blockInfo = turtle.inspectDown()
-        if exists and not isThrowAwayBlock(blockInfo) then
+        if exists and isThrowAwayBlock(blockInfo) == false then
             turtle.digDown()
         end
 
