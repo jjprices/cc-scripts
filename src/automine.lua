@@ -40,9 +40,10 @@ local tArgs = { ... }
 local lightDistance = 15
 local totalSpaces = 0
 local lightSpaces = 10
-local throwAwayBlocks = { "dirt", "cobblestone", "sand", "gravel", "tuff", "deepslate", "diorite", "andesite", "granite" }
-local bridgeBlock = "cobblestone"
+local bridgeBlocks = { "dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite" }
+local throwAwayBlocks = {table.unpack(bridgeBlocks), "sand", "gravel" }
 local quietMode = false
+local mineAbove = false
 
 local function exitProgram(message)
     message = message or ""
@@ -93,20 +94,24 @@ local function digCorridor()
     while turtle.forward() == false do
         turtle.dig()
     end
-    while turtle.detectUp() do
-        turtle.digUp()
-        --this sleep is necessary to allow time for sand or gravel to fall from above
-        sleep(0.5)
+    if mineAbove then
+        while turtle.detectUp() do
+            turtle.digUp()
+            --this sleep is necessary to allow time for sand or gravel to fall from above
+            sleep(0.5)
+        end
     end
     if turtle.detectDown() == false then
         for i = 2,15 do
             local blockInfo = turtle.getItemDetail(i)
             if blockInfo then
-                if string.find(blockInfo.name, bridgeBlock) then
-                    turtle.select(i)
-                    turtle.placeDown()
-                    turtle.select(2)
-                    break
+                for _, block in ipairs(bridgeBlocks) do
+                    if string.find(blockInfo.name, block) then
+                        turtle.select(i)
+                        turtle.placeDown()
+                        turtle.select(2)
+                        return
+                    end
                 end
             end
         end
@@ -191,6 +196,10 @@ for i = 1, #tArgs do
         end
     elseif parameterName == "--quiet" then
         quietMode = true
+    elseif parameterName == "--mineAbove" then
+        mineAbove = true
+    else
+        exitProgram("Unknown parameter: "..parameterName)
     end
     i = i + 1
 end
