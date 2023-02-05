@@ -53,6 +53,7 @@ local quietMode = false
 local mineAbove = false
 local checkAround = false
 local placeTorches = false
+local mineBack = false
 
 local function exitProgram(message)
     message = message or ""
@@ -251,8 +252,10 @@ while i <= #tArgs do
         mineAbove = true
     elseif parameterName == "--checkaround" or parameterName == "-ca" then
         checkAround = true
-        elseif parameterName == "--placetorches" or parameterName == "-t" then
+    elseif parameterName == "--placetorches" or parameterName == "-t" then
         placeTorches = true
+    elseif parameterName == "--mineBack" or parameterName == "-mb" then
+        mineBack = true
     else
         exitProgram("Unknown parameter: "..parameterName)
     end
@@ -288,24 +291,34 @@ while turtle.getItemCount(16) <= 1 do
     end
     if distanceLimit > 0 and totalSpaces >= distanceLimit then
         print("Reached distance of " .. distanceLimit .. "...")
-        if quietMode then
-            break
-        end
-        local answer
-        repeat
-            print("Should we keep")
-            io.write("going forward (y/n)? ")
-            io.flush()
-            answer = io.read()
-        until answer == "y" or answer == "n"
-        if answer == "y" then
-            io.write("What additional distance? ")
-            io.flush()
-            local moreDistance
-            moreDistance = io.read()
-            distanceLimit = distanceLimit + tonumber(moreDistance)
+        if mineBack then
+            print("Mining on the way back too :)")
+            turtle.turnRight()
+            for i = 1, 3 do
+                digCorridor()
+            end
+            turtle.turnRight()
+            totalSpaces = 0
         else
-            break
+            if quietMode then
+                break
+            end
+            local answer
+            repeat
+                print("Should we keep")
+                io.write("going forward (y/n)? ")
+                io.flush()
+                answer = io.read()
+            until answer == "y" or answer == "n"
+            if answer == "y" then
+                io.write("What additional distance? ")
+                io.flush()
+                local moreDistance
+                moreDistance = io.read()
+                distanceLimit = distanceLimit + tonumber(moreDistance)
+                else
+                break
+            end
         end
     end
 end
