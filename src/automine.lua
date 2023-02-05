@@ -187,6 +187,7 @@ local distanceLimit = 0
 
 for i = 1, #tArgs do
     local parameterName = string.lower(tArgs[i])
+    print(i..":"..parameterName)
     if parameterName == "--distance" then
         if #tArgs > i then
             i = i + 1
