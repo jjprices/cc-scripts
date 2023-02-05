@@ -57,9 +57,11 @@ end
 local function stringHasArrayMatch(value, array)
     for _, arrayValue in ipairs(array) do
         if string.find(value, arrayValue) then
+            print(value.." was a match!")
             return true
         end
     end
+    print(value.." was NOT a match")
     return false
 end
 
