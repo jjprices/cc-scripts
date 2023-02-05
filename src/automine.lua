@@ -185,7 +185,8 @@ local distanceLimit = 0
 
 --Main execution starts here
 
-for i = 1, #tArgs do
+local i = 1
+while i <= #tArgs do
     local parameterName = string.lower(tArgs[i])
     print(i..":"..parameterName)
     if parameterName == "--distance" then
