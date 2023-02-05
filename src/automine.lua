@@ -186,15 +186,12 @@ local distanceLimit = 0
 --Main execution starts here
 
 local i = 1
-print("i: "..tostring(i).." #tArgs:".. tostring(#tArgs))
 while i <= #tArgs do
     local parameterName = string.lower(tArgs[i])
-    print(i..":"..parameterName)
     if parameterName == "--distance" or parameterName == "-d" then
         if #tArgs > i then
             i = i + 1
             distanceLimit = tonumber(tArgs[i])
-            print("distanceLimit is "..distanceLimit.." and i is "..i)
         else
             exitProgram("no distance value supplied")
         end
@@ -206,7 +203,6 @@ while i <= #tArgs do
         exitProgram("Unknown parameter: "..parameterName)
     end
     i = i + 1
-    print("end of loop i:"..i)
 end
 
 turtle.select(2)
