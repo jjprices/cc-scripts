@@ -44,6 +44,7 @@ local bridgeBlocks = { "dirt", "cobblestone", "tuff", "deepslate", "diorite", "a
 local throwAwayBlocks = {table.unpack(bridgeBlocks), "sand", "gravel" }
 local quietMode = false
 local mineAbove = false
+local checkAround = false
 
 local function exitProgram(message)
     message = message or ""
@@ -53,40 +54,61 @@ local function exitProgram(message)
     error()
 end
 
+local function stringHasArrayMatch(value, array)
+    for _, arrayValue in ipairs(array) do
+        if string.find(value, arrayValue) then
+            return true
+        end
+    end
+    return false
+end
+
+local function isThrowAwayBlock(blockInfo)
+    return stringHasArrayMatch(blockInfo.name, throwAwayBlocks)
+end
+
+local function isBridgeBlock(blockInfo)
+    return stringHasArrayMatch(blockInfo.name, bridgeBlocks)
+end
+
+local function digUp()
+    while turtle.detectUp() do
+        turtle.digUp()
+        --this sleep is necessary to allow time for sand or gravel to fall from above
+        sleep(0.5)
+    end
+end
+
+local function turnAround()
+    turtle.turnLeft()
+    turtle.turnLeft()
+end
+
 local function throwAway()
     turtle.turnLeft()
     turtle.turnLeft()
     for i = 1,15 do
         turtle.select(i)
         local blockInfo = turtle.getItemDetail(i)
-        if blockInfo then
-            local matchFound = false
-            for _, block in ipairs(throwAwayBlocks) do
-                if string.find(blockInfo.name, block) then
-                    matchFound = true
-                    turtle.drop()
+        if blockInfo and isThrowAwayBlock(blockInfo) then
+            turtle.drop()
+        else
+            for j = 2, i-1 do
+                if turtle.getItemCount(j) == 0 then
+                    turtle.transferTo(j)
                     break
-                end
-            end
-            if matchFound == false then
-                for j = 2, i-1 do
-                    if turtle.getItemCount(j) == 0 then
+                else
+                    if turtle.compareTo(j) then
                         turtle.transferTo(j)
-                        break
-                    else
-                        if turtle.compareTo(j) then
-                            turtle.transferTo(j)
-                            if turtle.getItemCount(i) == 0 then
-                                break;
-                            end
+                        if turtle.getItemCount(i) == 0 then
+                            break;
                         end
                     end
                 end
             end
         end
     end
-    turtle.turnLeft()
-    turtle.turnLeft()
+    turnAround()
     turtle.select(2)
 end
 
@@ -95,24 +117,45 @@ local function digCorridor()
         turtle.dig()
     end
     if mineAbove then
-        while turtle.detectUp() do
-            turtle.digUp()
-            --this sleep is necessary to allow time for sand or gravel to fall from above
-            sleep(0.5)
+        digUp()
+    else
+        if checkAround then
+            local exists, blockInfo = turtle.inspectUp()
+            if exists and not isThrowAwayBlock(blockInfo) then
+                digUp()
+            end
         end
     end
+
+    if checkAround then
+        exists, blockInfo = turtle.inspectDown()
+        if exists and not isThrowAwayBlock(blockInfo) then
+            turtle.digDown()
+        end
+
+        turtle.turnLeft()
+        exists, blockInfo = turtle.inspect()
+        if exists and not isThrowAwayBlock(blockInfo) then
+            turtle.dig()
+        end
+
+        turnAround()
+        exists, blockInfo = turtle.inspect()
+        if exists and not isThrowAwayBlock(blockInfo) then
+            turtle.dig()
+        end
+
+        turtle.turnLeft()
+    end
+
     if turtle.detectDown() == false then
         for i = 2,15 do
             local blockInfo = turtle.getItemDetail(i)
-            if blockInfo then
-                for _, block in ipairs(bridgeBlocks) do
-                    if string.find(blockInfo.name, block) then
-                        turtle.select(i)
-                        turtle.placeDown()
-                        turtle.select(2)
-                        return
-                    end
-                end
+            if blockInfo and isBridgeBlock(blockInfo) then
+                turtle.select(i)
+                turtle.placeDown()
+                turtle.select(2)
+                break
             end
         end
     end
@@ -199,6 +242,8 @@ while i <= #tArgs do
         quietMode = true
     elseif parameterName == "--mineabove" or parameterName == "-ma" then
         mineAbove = true
+    elseif parameterName == "--checkaround" or parameterName == "-ca" then
+        checkAround = true
     else
         exitProgram("Unknown parameter: "..parameterName)
     end
