@@ -37,11 +37,18 @@
 
 local tArgs = { ... }
 
+local function appendArray(sourceArray, destinationArray)
+    for key, value in ipairs(sourceArray) do
+        destinationArray[key] = value
+    end
+end
+
 local lightDistance = 15
 local totalSpaces = 0
 local lightSpaces = 10
 local bridgeBlocks = { "dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite", ":stone" }
-local throwAwayBlocks = {t"dirt", "cobblestone", "tuff", "deepslate", "diorite", "andesite", "granite", ":stone" , "sand", "gravel" }
+local throwAwayBlocks = { "sand", "gravel" }  -- Note, bridgeBlocks get added to throwAwayBlocks
+appendArray(bridgeBlocks, throwAwayBlocks)
 local quietMode = false
 local mineAbove = false
 local checkAround = false
@@ -57,11 +64,9 @@ end
 local function stringHasArrayMatch(value, array)
     for _, arrayValue in ipairs(array) do
         if string.find(value, arrayValue) then
-            print(value.." was a match!")
             return true
         end
     end
-    print(value.." was NOT a match")
     return false
 end
 
