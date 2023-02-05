@@ -46,7 +46,10 @@ local quietMode = false
 
 local function exitProgram(message)
     message = message or ""
-    error(message)
+    if string.len(message) > 0 then
+        print(message)
+    end
+    error()
 end
 
 local function throwAway()
