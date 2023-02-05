@@ -186,6 +186,7 @@ local distanceLimit = 0
 --Main execution starts here
 
 local i = 1
+print("i: "..tostring(i).." #tArgs:".. tostring(#tArgs))
 while i <= #tArgs do
     local parameterName = string.lower(tArgs[i])
     print(i..":"..parameterName)
