@@ -40,7 +40,7 @@ local tArgs = { ... }
 local lightDistance = 15
 local totalSpaces = 0
 local lightSpaces = 10
-local throwAwayBlocks = { "dirt", "cobblestone", "sand", "gravel"}
+local throwAwayBlocks = { "dirt", "cobblestone", "sand", "gravel","tuff","deepslate"}
 local bridgeBlock = "cobblestone"
 local quietMode = false
 
