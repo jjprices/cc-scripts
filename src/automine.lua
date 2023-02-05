@@ -40,7 +40,7 @@ local tArgs = { ... }
 local lightDistance = 15
 local totalSpaces = 0
 local lightSpaces = 10
-local throwAwayBlocks = { "dirt", "cobblestone", "sand", "gravel", "tuff", "deepslate", "diorite", "andesite", "granite"}
+local throwAwayBlocks = { "dirt", "cobblestone", "sand", "gravel", "tuff", "deepslate", "diorite", "andesite", "granite" }
 local bridgeBlock = "cobblestone"
 local quietMode = false
 
@@ -60,7 +60,7 @@ local function throwAway()
         local blockInfo = turtle.getItemDetail(i)
         if blockInfo then
             local matchFound = false
-            for block in throwAwayBlocks do
+            for _, block in ipairs(throwAwayBlocks) do
                 if string.find(blockInfo.name, block) then
                     matchFound = true
                     turtle.drop()
