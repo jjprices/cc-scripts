@@ -8,7 +8,7 @@ local baseRepoUrl = "https://raw.githubusercontent.com/jjprices/cc-scripts/maste
 
 local function replaceFile(filename)
     shell.run("delete", filename)
-    shell.run("wget", baseRepUrl..filename)
+    shell.run("wget", baseRepoUrl..filename)
 end
 
 replaceFile("automine.lua")
