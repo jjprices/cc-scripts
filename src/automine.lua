@@ -52,6 +52,7 @@ appendArray(bridgeBlocks, throwAwayBlocks)
 local quietMode = false
 local mineAbove = false
 local checkAround = false
+local placeTorches = false
 
 local function exitProgram(message)
     message = message or ""
@@ -250,6 +251,8 @@ while i <= #tArgs do
         mineAbove = true
     elseif parameterName == "--checkaround" or parameterName == "-ca" then
         checkAround = true
+        elseif parameterName == "--placetorches" or parameterName == "-t" then
+        placeTorches = true
     else
         exitProgram("Unknown parameter: "..parameterName)
     end
@@ -270,7 +273,7 @@ while turtle.getItemCount(16) <= 1 do
     digCorridor()
     totalSpaces = totalSpaces + 1
     lightSpaces = lightSpaces + 1
-    if lightSpaces >= lightDistance then
+    if lightSpaces >= lightDistance and placeTorches then
         placeLight()
     end
     if turtle.getItemCount(16) == 1 then
