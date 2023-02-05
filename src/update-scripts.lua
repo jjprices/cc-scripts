@@ -7,7 +7,7 @@
 local baseRepoUrl = "https://raw.githubusercontent.com/jjprices/cc-scripts/master/src/"
 
 local function replaceFile(filename)
-    delete filename
+    shell.run("delete", filename)
     shell.run("wget", baseRepUrl..filename)
 end
 
