@@ -304,7 +304,7 @@ while turtle.getItemCount(16) <= 1 do
             lightSpaces = 10
         elseif mineBack then
             break
-        elseif not mineBack then
+        else
             if quietMode then
                 break
             end
