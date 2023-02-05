@@ -190,7 +190,7 @@ print("i: "..tostring(i).." #tArgs:".. tostring(#tArgs))
 while i <= #tArgs do
     local parameterName = string.lower(tArgs[i])
     print(i..":"..parameterName)
-    if parameterName == "--distance" then
+    if parameterName == "--distance" or parameterName == "-d" then
         if #tArgs > i then
             i = i + 1
             distanceLimit = tonumber(tArgs[i])
@@ -198,9 +198,9 @@ while i <= #tArgs do
         else
             exitProgram("no distance value supplied")
         end
-    elseif parameterName == "--quiet" then
+    elseif parameterName == "--quiet" or parameterName == "-q" then
         quietMode = true
-    elseif parameterName == "--mineabove" then
+    elseif parameterName == "--mineabove" or parameterName == "-ma" then
         mineAbove = true
     else
         exitProgram("Unknown parameter: "..parameterName)
