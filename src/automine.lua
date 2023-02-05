@@ -54,6 +54,7 @@ local mineAbove = false
 local checkAround = false
 local placeTorches = false
 local mineBack = false
+local headingBack = false
 
 local function exitProgram(message)
     message = message or ""
@@ -291,8 +292,9 @@ while turtle.getItemCount(16) <= 1 do
     end
     if distanceLimit > 0 and totalSpaces >= distanceLimit then
         print("Reached distance of " .. distanceLimit .. "...")
-        if mineBack then
+        if mineBack and not headingBack then
             print("Mining on the way back too :)")
+            headingBack = true
             turtle.turnRight()
             for i = 1, 3 do
                 digCorridor()
@@ -327,4 +329,6 @@ if turtle.getItemCount(16) > 0 then
     print "Something is in last slot..."
 end
 
-returnHome()
+if not headingBack then
+    returnHome()
+end
