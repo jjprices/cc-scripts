@@ -141,12 +141,16 @@ end
 
 local function returnHome()
     local answer
-    repeat
-        print("Return to where")
-        io.write("I last started (y/n)? ")
-        io.flush()
-        answer=io.read()
-    until answer == "y" or answer == "n"
+    if quietMode then
+        answer = "y"
+    else
+        repeat
+            print("Return to where")
+            io.write("I last started (y/n)? ")
+            io.flush()
+            answer=io.read()
+        until answer == "y" or answer == "n"
+    end
     if answer == "y" then
         print "Returning home"
         turtle.turnRight()
@@ -191,10 +195,6 @@ for i = 1, #tArgs do
     i = i + 1
 end
 
-if #tArgs > 0 then
-    distanceLimit = tonumber(tArgs[1])
-end
-
 turtle.select(2)
 while turtle.getItemCount(16) <= 1 do
     if turtle.getItemCount(15) > 0 then
@@ -224,6 +224,9 @@ while turtle.getItemCount(16) <= 1 do
     end
     if distanceLimit > 0 and totalSpaces >= distanceLimit then
         print("Reached distance of " .. distanceLimit .. "...")
+        if quietMode then
+            break
+        end
         local answer
         repeat
             print("Should we keep")
