@@ -7,28 +7,35 @@
 -----------------------------------
 --
 -- What is this?
---   Lua program for Minecraft with ComputerCraft mod.  This works only with mining turtles!
---
--- What does it do?
---   It mines a tunnel 1 block wide, 2 high and places an item from inventory spot 1 (top left)
---   15 blocks apart.  This is intended for torches, so place a stack of torches in the turtle's
---   first inventory spot.  Place fuel in any other spot (coal works well, or lava bucket for epic).
---   This isn't the most efficient way to mine, but it's fun and this was a good first exercise
---   in trying out Lua and controlling a turtle.  You follow the turtle and use your
---   pick axe to mine the items you want on the floor, walls, or ceiling of the tunnel that weren't in the
---   direct path of your turtle.  You must stay relatively close to your turtle or it will go outside of
---   loaded chunks and just shut down.
+--   Lua program for Minecraft with ComputerCraft mod (and CC Tweaked).  This works only with mining turtles!
 --
 -- How do I get it?
 --   Easy!  Just enter the following command into your mining turtle:
---     pastebin get HXVWzXDg automine
+--     wget https://github.com/jjprices/cc-scripts/raw/master/src/automine.lua
 --
--- Usage: automine <distance>
---                  ^-- Number of blocks to mine forward before stopping
---                      (Optional, mines until inventory full if left blank)
+-- parameters (note: the long or short version can be used)
+--      --distance | -d <integer>
+--          Specifies the number of blocks from it's starting position the turtle should mine forward
+--      --placeTorches | -t
+--          Tells the turtle to place torches as it mines.  You have to put the torches in the fist
+--          slot of the turtle.  It will place it on the right every 15 blocks, starting on the 5th block
+--      --mineAbove | -ma
+--          Turtle will mine the block above it as well as in front of it resulting in a 2 block high tunnel.
+--      --mineBack | -mb
+--          Once the turtle reaches the distance specified with the -d option, it will mine 3 blocks to the right
+--          and mine all the way back to the starting position in a new tunnel 3 blocks over.
+--      --checkAround | -ca
+--          This is a somewhat experimental feature.  When the turtle is mining, it will look one block above, below,
+--          to the left, and to the right of it's current position.  If it identifies the block as something
+--          that isn't throw away, it will mine that block.  Note that this severely slows down mining as the
+--          turtle has to physically turn left and right to identify the block.
+--      --quiet | -q
+--          When the --mineback option is not used, normally the turtle will stop once --distance is reached
+--          and will prompt the user if it should continue forward more blocks, and if not if it should return home.quiet
+--          with the --quiet option specified, users is not prompted and it just will return straight home.
 --
--- Example: automine 500 <- Mines for 500 blocks before stopping, but it'll
---                          ask if you want to go more.  It's polite like that.
+--
+-- Example: automine -d 150 -t -ma -mb
 --
 -- Notes:
 --   * If it stops, just right click on the turtle, it'll tell you why and what to do.
