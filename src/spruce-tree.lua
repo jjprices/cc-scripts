@@ -9,6 +9,7 @@ do
         turtle.back()
     until data.name == "minecraft:spruce_log"
 
+    turtle.forward()
     turtle.dig()
     turtle.forward()
     n = 0
