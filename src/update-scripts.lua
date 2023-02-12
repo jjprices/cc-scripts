@@ -13,3 +13,4 @@ end
 replaceFile("automine.lua")
 replaceFile("update-scripts.lua")
 replaceFile("check-slots.lua")
+replaceFile("spruce-tree.lua")
