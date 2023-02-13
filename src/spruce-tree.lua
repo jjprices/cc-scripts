@@ -4,6 +4,7 @@ for x = 1, numTrees, 1
 do
     repeat
         sleep(30)
+        turtle.dig()
         turtle.forward()
         has_block, data = turtle.inspect()
         turtle.back()
@@ -37,8 +38,14 @@ do
         turtle.turnLeft()
     end
 
-    turtle.back()
-    turtle.back()
+    turtle.turnLeft()
+    turtle.turnLeft()
+    turtle.dig()
+    turtle.forward()
+    turtle.dig()
+    turtle.forward()
+    turtle.turnLeft()
+    turtle.turnLeft()
     turtle.down()
 end
 
